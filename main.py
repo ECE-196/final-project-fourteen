@@ -221,4 +221,115 @@ def take_photo():
 def recognize_n_save(image):
     small_image = cv2.resize(image, (0, 0), fx=scale_down, fy=scale_down)
     rgb_small_image = cv2.cvtColor(small_image, cv2.COLOR_BGR2RGB)
-    face_locations = face_recognition.face_locations
+    face_locations = face_recognition.face_locations(rgb_small_image)
+    new_face_encodings = face_recognition.face_encodings(rgb_small_image, face_locations)
+    face_names = []
+    for face_encoding in new_face_encodings:
+        # See if the face is a match for the known face(s)
+        matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
+        name = "???"
+        face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
+        best_match_index = np.argmin(face_distances)
+        if matches[best_match_index]:
+            name = known_users[best_match_index]
+            now = datetime.now()
+            pil_image = Image.fromarray(image)
+            target_dir = os.path.join(os.getcwd(), "user_faces", name, now.strftime("%Y-%m-%d %H-%M-%S") + ".jpg")
+            pil_image.save(target_dir)
+            face_names.append(name)
+        else:
+            face_names = [name] * len(face_locations)
+        print(face_names)
+
+    for (top, right, bottom, left), name in zip(face_locations, face_names):
+        # Scale back up face locations since the image we detected in was scaled to 1/4 size
+        top *= scale_up
+        right *= scale_up
+        bottom *= scale_up
+        left *= scale_up
+        cv2.rectangle(image, (left, top), (right, bottom), (0, 0, 255), 2)
+        cv2.rectangle(image, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
+        font = cv2.FONT_HERSHEY_DUPLEX
+        cv2.putText(image, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+    return image  
+
+@app.route('/')
+def index(): 
+    return render_template('index.html')
+
+@app.route('/users')
+def users():
+    folders = get_folders(user_directory)
+    return render_template('userPage.html', folders=folders)
+
+@app.route('/newUser')
+def newUser():
+    return render_template('newUserPage.html')
+
+@app.route('/folder/<folder_name>')
+def folder(folder_name):
+    folder_path = os.path.join(user_directory, folder_name)
+    contents = os.listdir(folder_path)
+    image_files = [f for f in contents if f.endswith(('.png', '.jpg', '.jpeg', '.gif'))]  # Filter only image files
+    return render_template('folder.html', folder_name=folder_name, image_files=image_files, folder_path = folder_path)
+
+def get_folders(directory):
+    folders = []
+    for item in os.listdir(directory):
+        if os.path.isdir(os.path.join(directory, item)):
+            folders.append(item)
+    return folders
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    username = request.form['username']
+    image_data = request.form['image_data']
+    known_users.append(username)
+    image_bytes = base64.b64decode(image_data)
+    image = Image.open(BytesIO(image_bytes))
+    save_path = os.path.join(os.getcwd(), "user_faces", username + ".jpg")
+    image.save(save_path)
+    this_image = face_recognition.load_image_file(save_path)
+    this_face_encoding = face_recognition.face_encodings(this_image)
+    if this_face_encoding:
+        global known_face_encodings
+        known_face_encodings = np.vstack([known_face_encodings, this_face_encoding[0]])
+    else:
+        return "No face found in the image", 400
+    directory_path = os.path.join(os.getcwd(), "user_faces", username)
+    if not os.path.exists(directory_path):
+        os.makedirs(directory_path)
+    
+    return f"Directory for username {username} created"
+
+@app.route('/capture', methods=['POST'])
+def capture():
+    #stop_listener(listener_thread)
+    image = take_photo()
+    recognized_image = recognize_n_save(image)
+    preprocessed_im = pre_OCR_image_processing(image)
+    extracted_text = ocr(preprocessed_im)
+    recognized_image = get_RGB(recognized_image)
+    img_base64 = reformat_image(recognized_image)
+    #start_listener()
+    return {'text': extracted_text, 'image': img_base64}
+
+@app.route('/captureNewUser', methods=['POST'])
+def newUserCapture():
+    # DO NOT REMOVE
+    #stop_listener()
+    image = take_photo()
+    preprocessed_im = pre_OCR_image_processing(image)
+    extracted_text = ocr(preprocessed_im)
+    image = get_RGB(image)
+    img_base64 = reformat_image(image)
+    #start_listener()
+    return {'text': extracted_text, 'image': img_base64}
+
+
+
+if __name__ == '__main__':
+    ##listener_thread = threading.Thread(target=listen_for_trigger, daemon=True)
+    ##start_listener()
+    app.run(host = "0.0.0.0", port=8000, debug=True)
+    ##python -m http.server 8000 --bind 0.0.0.0
