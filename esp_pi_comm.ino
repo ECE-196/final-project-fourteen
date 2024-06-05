@@ -20,17 +20,15 @@
 #define VSYNC_GPIO_NUM    38
 #define HREF_GPIO_NUM     47
 #define PCLK_GPIO_NUM     13
-#define BUTTON_PIN        D8
+#define BUTTON_PIN        D3
 int i = 0;
-unsigned long lastPressTime = 0;  // Store the time of the last button press
-const unsigned long debounceDelay = 5000;  // 5 seconds debounce delay
 
 
 void setup() {
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
-  pinMode(BUTTON_PIN, INPUT_PULLDOWN);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
   //Serial.println("hola");
   //Serial.setDebugOutput(true);
   //Serial.println();
@@ -109,7 +107,7 @@ void setup() {
 #if defined(CAMERA_MODEL_XIAO_ESP32S3)
   s->set_brightness(s, 10);
   //s->set_vflip(s, 1);
-  //s->set_hmirror(s, 1);
+  s->set_hmirror(s, 1);
 #endif
 
 }
@@ -144,12 +142,8 @@ void loop() {
         
   }
   String take_photo = "Take_Photo";
-  unsigned long currentTime = millis();
-  if ((digitalRead(BUTTON_PIN) == HIGH) && Serial.available() == 0 && (currentTime - lastPressTime > debounceDelay)){
-    Serial.println(take_photo);
-    lastPressTime = currentTime;
-
+  if ((i%3000000 == 0) && Serial.available() == 0){
+    Serial.println(take_photo); 
     //Serial.println((analogRead(BUTTON_PIN)));
-  }    
-  //Serial.println("hola");
+  }     
 }

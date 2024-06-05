@@ -10,3 +10,7 @@ Added updated html files to improve the visibility. Also added code to our main 
 
 Improved seeeduino for pcb functionality (i.e. button push and buzzer)
 
+Updated the functions for more readability in main, recognizing and saving images uses takes parameter directory as opposed to user, and we continue to work with the seeduino and pcb abandoning our attempt to send higher resolution photos for less bugs.
+
+Cleaned up code (htmls and main) and added improved error handling with regards to threading issue we have been facing.
+
