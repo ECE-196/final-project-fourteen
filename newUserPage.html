@@ -4,82 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New User</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            color: #343a40;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        h1 {
-            text-align: center;
-            color: #007bff;
-            margin-bottom: 20px;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-        label, input {
-            margin: 10px 0;
-        }
-        input[type="text"] {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 200px;
-        }
-        input[type="submit"], button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        input[type="submit"]:hover, button:hover {
-            background-color: #0056b3;
-        }
-        #image-container img {
-            max-width: 100%;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-        .button-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-    </style>
 </head>
+
 <body>
 
-<h1>New User</h1>
-<button id="capture-btn">Scan Face</button>
+<h1>Web OCR</h1>
+<button id="capture-btn">Capture New User</button>
 <div id="result"></div>
 <div id="image-container"></div>
 
 <script>
     document.getElementById('capture-btn').addEventListener('click', async () => {
-        // Get the username input value
-        const username = document.getElementById('username').value;
-        
-        // Send the username along with the image data in the POST request
         const response = await fetch('/captureNewUser', {
-            method: 'POST',
-            body: JSON.stringify({ username }), // Send username as JSON
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            method: 'POST'
         });
         const data = await response.json();
         document.getElementById('result').innerText = data.text;
@@ -91,7 +28,7 @@
 </script>
 
 <form action="/submit" method="post">
-    <label for="username">Enter Username:</label>
+    <label for="username">Username:</label>
     <input type="text" id="username" name="username">
     
     <!-- Hidden input field to store the image data -->
@@ -100,17 +37,14 @@
     <input type="submit" id="submit-btn" value="Submit">
 </form>
 
-<div class="button-container">
-    <button id="back-btn">Back</button>
-</div>
-
+<button id="back-btn">Back</button>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Select the button by its ID
-        var backButton = document.getElementById('back-btn');
+        var userListButton = document.getElementById('back-btn');
 
         // Add a click event listener to the button
-        backButton.addEventListener('click', function() {
+        userListButton.addEventListener('click', function() {
             // Redirect to another page
             window.location.href = 'users'; 
         });
