@@ -134,7 +134,7 @@ Johnathan
 
 Added:
 
-Added object recognition examples Johnathan found. Cyrus parsed the returned object recognition results and We started naming images based on the othe best result.Recognize and save holding all core functionality - face and object recognition.
+Uploaded working object detection model with its own main.py ready for integration into our main code
  
 Changed:
 
@@ -142,15 +142,47 @@ Removed:
 
 n/a
 
-{May 30}
+{May 30/31}
 
 Contributors:
 
-Johnathan
+all
 
 Added:
 
-Cyrus parsed the returned object recognition results and We started naming images based on the othe best result. Modified and cleaned recognize n save. Recognize and save holding all core functionality - face and object recognition.
+Added Object detection. Cyrus parsed the returned object recognition results and We started naming images based on the othe best result. Modified and cleaned recognize n save. Recognize and save holding all core functionality - face and object recognition. Added a delete button
+ 
+Changed:
+
+Removed:
+
+n/a
+
+{June 2}
+
+Contributors:
+
+all
+
+Added:
+
+Object detection was returning incorrect inferences so we Started training our own object detection. Johnathan trianed his model with over a thousand images taken with the seeed of common food. Started working on notifications. Added a second thread operation to track the length items have been in the fridge
+ 
+Changed:
+
+Removed:
+
+n/a
+
+{June 5}
+
+Contributors:
+
+all
+
+Added:
+
+Uploaded final code. Finalized object detection model, auto delete and notification functions, crisp error handling, face detection doesnt get it wrong.
  
 Changed:
 
