@@ -14,7 +14,7 @@ Removed:
 
 n/a
 
-{DATE}
+{May 19}
 
 Contributors:
 
@@ -44,9 +44,11 @@ Removed:
 
 n/a
 
-{DATE}
+{May 20}
 
 Contributors:
+
+All
 
 Added:
 
@@ -58,9 +60,11 @@ Removed:
 
 n/a
 
-{DATE}
+{May 20}
 
 Contributors:
+
+Cyrus
 
 Added:
 
@@ -72,9 +76,11 @@ Removed:
 
 n/a
 
-{DATE}
+{May 22}
 
 Contributors:
+
+Theo
 
 Added:
 
@@ -86,13 +92,33 @@ Removed:
 
 n/a
 
-{DATE}
+{May 27}
 
 Contributors:
 
+all
+
 Added:
 
-Updated the functions for more readability in main, recognizing and saving images uses takes parameter directory as opposed to user, and we continue to work with the seeduino and pcb abandoning our attempt to send higher resolution photos for less bugs.
+Updated the functions for more readability in main, recognizing and saving images uses takes parameter directory as opposed to user, and we continue to work with the seeduino and pcb abandoning our attempt to send higher resolution photos for less bugs. Added a try again image for users who spam the buttons. 
+
+Changed:
+
+Removed:
+
+OCR. It sucked
+
+n/a
+
+{May 28}
+
+Contributors:
+
+all
+
+Added:
+
+Cleaned up code (htmls and main) for more back buttons, and added improved error handling with regards to threading issue we have been facing, displaying error issues to the user preventing our program from crashing. The threading and serial port issue was our biggest culprit. 
 
 Changed:
 
@@ -100,14 +126,32 @@ Removed:
 
 n/a
 
-{DATE}
+{May 29}
 
 Contributors:
 
+Johnathan
+
 Added:
 
-Cleaned up code (htmls and main) and added improved error handling with regards to threading issue we have been facing.
+Added object recognition examples Johnathan found. Cyrus parsed the returned object recognition results and We started naming images based on the othe best result.Recognize and save holding all core functionality - face and object recognition.
+ 
+Changed:
 
+Removed:
+
+n/a
+
+{May 30}
+
+Contributors:
+
+Johnathan
+
+Added:
+
+Cyrus parsed the returned object recognition results and We started naming images based on the othe best result. Modified and cleaned recognize n save. Recognize and save holding all core functionality - face and object recognition.
+ 
 Changed:
 
 Removed:
