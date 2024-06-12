@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Created</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            margin: 20px;
+        }
+        h1 {
+            color: #28a745;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 20px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>User Created Successfully!</h1>
+    <p>User {{ username }} created with email {{ email }}
+    <button id="back-btn">Back to Users</button>
+</div>
+
+<script>
+    document.getElementById('back-btn').addEventListener('click', function() {
+        window.location.href = 'users'; 
+    });
+
+    // Simulate passing username and email from the backend
+    document.getElementById('username').innerText = 'exampleUsername';
+    document.getElementById('email').innerText = 'example@example.com';
+</script>
+
+</body>
+</html>
